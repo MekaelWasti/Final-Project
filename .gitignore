@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-/Backend/AffectNet Dataset
 
 # testing
 /coverage
