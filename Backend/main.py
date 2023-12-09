@@ -3,7 +3,9 @@
 from fastapi import FastAPI, UploadFile, Form, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import shutil
 app = FastAPI()
+from inference import getSentiment
 
 
 # Add CORS middleware
@@ -50,8 +52,24 @@ def read_root():
 #         # return PlainTextResponse(content=f"Error: {e}", status_code=500)
 
 
-# @app.post("/get_action")
-# def getAction(userInput: str = Form(...)):
+@app.post("/upload_image")
+async def getAction(image: UploadFile = File(...)):
+    print("AH YEAH")
+    res = await image.read()
+    getSentiment(res)
+
+    
+
+    # with open(f"{file.filename}", "wb") as buffer:
+        # shutil.copyfileobj(file.file, buffer)
+    # return {"filename": file.filename}
+    # try:
+        # return JSONResponse(content={"message":"Image uploaded"})
+    # except Exception as e:
+        # return JSONResponse(content={"Error":str(e)}, status_code=500)
+
+
+
 #     print(f'RECIEVED: {userInput}')
 #     # res = getSentiment(userInput)
 #     # print("RES:", res)
