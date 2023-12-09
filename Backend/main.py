@@ -1,6 +1,6 @@
 # python3.10 -m uvicorn main:app --reload --host 0.0.0.0 --port 63030 --ssl-keyfile=./ZERO_SSL/private.key --ssl-certfile=./ZERO_SSL/certificate.crt
 
-from fastapi import FastAPI, UploadFile, Form, File
+from fastapi import FastAPI, UploadFile, Form, File, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import shutil
@@ -52,25 +52,19 @@ def read_root():
 #         # return PlainTextResponse(content=f"Error: {e}", status_code=500)
 
 
+# # Get video stream
+# @app.websocket("/ws")
+# async def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     while True:
+#         data = await websocket.receive_text()  # Corrected spelling
+#         print("Received data:", data)
+#         # Process the data here
+
 @app.post("/upload_image")
 async def getAction(image: UploadFile = File(...)):
     print("AH YEAH")
     res = await image.read()
-    getSentiment(res)
+    sentiment = getSentiment(res)
 
-    
-
-    # with open(f"{file.filename}", "wb") as buffer:
-        # shutil.copyfileobj(file.file, buffer)
-    # return {"filename": file.filename}
-    # try:
-        # return JSONResponse(content={"message":"Image uploaded"})
-    # except Exception as e:
-        # return JSONResponse(content={"Error":str(e)}, status_code=500)
-
-
-
-#     print(f'RECIEVED: {userInput}')
-#     # res = getSentiment(userInput)
-#     # print("RES:", res)
-#     # return res
+    return sentiment
