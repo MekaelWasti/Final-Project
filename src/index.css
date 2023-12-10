@@ -30,3 +30,15 @@ code {
 
 .App {
 }
+
+video::-webkit-media-controls {
+  display: none;
+}
+
+video::--webkit-media-controls-play-button {
+  display: none;
+}
+
+video::-webkit-media-controls-start-playback-button {
+  display: none;
+}

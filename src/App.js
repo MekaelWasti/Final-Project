@@ -7,6 +7,76 @@ function App() {
   // States
   const [sentiment, setSentiment] = useState("Upload Image");
 
+  // VideoRefs
+  const videoRef = useRef(null);
+  const webSocket = useRef(null);
+
+  useEffect(() => {
+    // Request access to the webcam
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          // Set the source of the video element to the stream from the webcam
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        })
+        .catch((error) => {
+          console.error("Error accessing media devices.", error);
+        });
+    } else {
+      console.error(
+        "MediaDevices API or getUserMedia method is not supported in this browser."
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // Establish WebSocket connection
+    webSocket.current = new WebSocket("wss://api.mekaelwasti.com:63030/ws");
+    webSocket.current.onopen = () => {
+      console.log("WebSocket Connected");
+    };
+    webSocket.current.onmessage = (message) => {
+      const data = JSON.parse(message.data);
+      const sentiment = data.sentiment;
+      console.log(sentiment);
+      setSentiment(sentiment.toUpperCase());
+    };
+    webSocket.current.onclose = () => {
+      console.log("WebSocket Disconnected");
+    };
+    // Clean
+    return () => {
+      if (webSocket.current) {
+        webSocket.current.close();
+      }
+    };
+  }, []);
+
+  const captureFrame = () => {
+    if (!videoRef.current) return;
+
+    if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      canvas.getContext("2d").drawImage(videoRef.current, 0, 0);
+      const data = canvas.toDataURL("image/jpeg");
+      webSocket.current.send(data);
+    } else {
+      // Optionally handle the case where the WebSocket is not ready
+      console.log("WebSocket is not ready for sending data.");
+    }
+  };
+
+  // Rate of sending frames
+  useEffect(() => {
+    const interval = setInterval(captureFrame, 100);
+    return () => clearInterval(interval);
+  }, []);
+
   // Image upload handler
   const handleImageSubmission = async (e) => {
     e.preventDefault();
@@ -58,11 +128,12 @@ function App() {
           <input type="submit" value="UPLOAD" />
         </form>
       </div>
-      {/* <video
+      <video
         ref={videoRef}
         autoPlay
-        style={{ width: "640px", height: "480px" }}
-      /> */}
+        playsInline
+        style={{ width: "50%", height: "50%" }}
+      />
     </div>
   );
 }
