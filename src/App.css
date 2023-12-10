@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+#MainHeader {
+  color:#61dafb;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+}
+
+#labelRow {
+  display: flex;
+  width: 40%;
+  justify-content: space-evenly;
+  padding: 10px;
+}

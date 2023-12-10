@@ -37,13 +37,15 @@ function App() {
   };
   return (
     <div className="App">
-      <h1>EXPRESS - FACIAL SENTIMENT ANALYSER</h1>
+      <h1 id="MainHeader">EXPRESS - FACIAL SENTIMENT ANALYSER</h1>
       <div className="file_upload">
         <form onSubmit={handleImageSubmission} encType="multipart/form-data">
-          <label htmlFor="image">
-            {" "}
-            <h4>UPLOAD YOUR IMAGE HERE</h4>
-            <h4>SENTIMENT: {sentiment}</h4>
+          <label htmlFor="image" className="label">
+            <div id="labelRow">
+              {" "}
+              <h4>UPLOAD YOUR IMAGE HERE</h4>
+              <h4>SENTIMENT: {sentiment}</h4>
+            </div>
           </label>
           <br></br>
           <input
