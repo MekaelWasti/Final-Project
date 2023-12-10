@@ -126,7 +126,12 @@ function App() {
           <input type="submit" value="UPLOAD" />
         </form>
       </div>
-      <video ref={videoRef} autoPlay style={{ width: "50%", height: "50%" }} />
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        style={{ width: "50%", height: "50%" }}
+      />
     </div>
   );
 }
