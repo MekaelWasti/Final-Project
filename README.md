@@ -4,6 +4,12 @@
 
 Hi there, thank you for taking the time to look over our project. This repository holds the frontend and backend for our web application, which allows you to try out our live facial sentiment analysis algorithm, or to upload an image and get a single sentiment analysis prediction.
 
+Here is a demonstration of the project:
+
+[![Alt text for your video](http://img.youtube.com/vi/9UWd0DgQwjM/0.jpg)](http://www.youtube.com/watch?v=9UWd0DgQwjM)
+
+---
+
 You can try out the web application yourselves at https://ml-final-project.vercel.app/
 
 This project was created by Mekael Wasti and Gavin Bosman, for their CSCI-4050U final project.
