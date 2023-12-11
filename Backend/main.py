@@ -21,6 +21,7 @@ origins = [
     "http://localhost:3001",
     "https://thesisproject.mekaelwasti.com",
     "https://thesisproject.mekaelwasti.com",
+    "https://ml-final-project.vercel.app"
 ]
 
 app.add_middleware(
