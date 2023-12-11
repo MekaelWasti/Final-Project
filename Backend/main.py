@@ -4,6 +4,11 @@ from fastapi import FastAPI, UploadFile, Form, File, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import shutil
+import json
+# image to tensor transform is too CPU intensive
+# Need to debounce
+import asyncio
+
 app = FastAPI()
 from inference import getSentiment
 
@@ -52,19 +57,32 @@ def read_root():
 #         # return PlainTextResponse(content=f"Error: {e}", status_code=500)
 
 
-# # Get video stream
-# @app.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     while True:
-#         data = await websocket.receive_text()  # Corrected spelling
-#         print("Received data:", data)
-#         # Process the data here
+# Get video stream
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    
+    lastSentimentCall = 0
+    while True:
+        data = await websocket.receive_text()  # Corrected spelling
+        # print("Received data:", data)
+        # Process the data here
+
+        # debounce the call
+        currentTime = asyncio.get_event_loop().time()
+        if currentTime - lastSentimentCall >= 0.8:
+            sentiment = getSentiment(data, "video_stream")
+            lastSentimentCall = currentTime
+
+            await websocket.send_text(json.dumps({'sentiment': sentiment}))
+            
+        await asyncio.sleep(0.01)
+        # return sentiment
 
 @app.post("/upload_image")
 async def getAction(image: UploadFile = File(...)):
     print("AH YEAH")
     res = await image.read()
-    sentiment = getSentiment(res)
+    sentiment,predicted_prob = getSentiment(res, "image_stream")
 
-    return sentiment
+    return sentiment,predicted_prob

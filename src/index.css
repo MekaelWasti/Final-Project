@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap");
+@import url(//db.onlinewebfonts.com/c/6a28a1fb5b77054a12626d0c23c92aa2?family=CeraCY-Bold);
+
 * {
-  background-color: #1e1e1e;
+  font-family: "CeraCY-Bold", sans-serif;
+  /* background-color: #1e1e1e; */
   color: #ffffff;
+
   /* background: #232526; fallback for old browsers */
   /* background: -webkit-linear-gradient( */
   /* to bottom, */
@@ -21,6 +26,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(19, 23, 24);
 }
 
 code {
@@ -41,4 +47,23 @@ video::--webkit-media-controls-play-button {
 
 video::-webkit-media-controls-start-playback-button {
   display: none;
+}
+
+.button {
+  color: rgb(41, 41, 41);
+  width: 15em;
+  height: 3em;
+  background-color: #ffffff51;
+  /* border: rgb(255, 255, 255) solid 0.8px; */
+  border: rgb(255, 255, 255) solid 0px;
+  border-radius: 6px;
+  background: linear-gradient(to right, #b1b1b12c, rgba(74, 74, 74, 0.527));
+  /* opacity: 80%; */
+  box-shadow: 0 0 1.4px #fff;
+  color: white;
+  text-shadow: 0 0 0px #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  /* backdrop-filter: blur(5px); */
+  border-radius: 5px;
+  margin: 20px 20px 20px 20px;
 }
