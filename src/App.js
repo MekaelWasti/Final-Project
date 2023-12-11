@@ -25,6 +25,7 @@ function App() {
 
   const initializeWebSocket = () => {
     webSocket.current = new WebSocket("wss://api.mekaelwasti.com:63030/ws");
+    // webSocket.current = new WebSocket("ws://localhost:3001/ws ");
     webSocket.current.onopen = () => console.log("WebSocket Connected");
     webSocket.current.onmessage = (message) => {
       const sentimentData = JSON.parse(message.data);
@@ -162,11 +163,12 @@ function App() {
       <h1 id="MainHeader">
         EXPRESS <br></br>FACIAL SENTIMENT ANALYSER
       </h1>
-      {isCameraActive? null :
-      <h1>
+      {isCameraActive ? null : (
+        <h1>
           SENTIMENT:{" "}
           <span style={{ color: sentiment.color }}>{sentiment.text}</span>
-      </h1>}
+        </h1>
+      )}
 
       <hr></hr>
       <h2>IMAGE ANALYSIS</h2>
@@ -201,10 +203,12 @@ function App() {
         <button className="button" onClick={toggleCamera}>
           {isCameraActive ? "TURN OFF CAMERA" : "TURN ON CAMERA"}
         </button>
-        {isCameraActive? <h1>
-          SENTIMENT:{" "}
-          <span style={{ color: sentiment.color }}>{sentiment.text}</span>
-        </h1> : null}
+        {isCameraActive ? (
+          <h1>
+            SENTIMENT:{" "}
+            <span style={{ color: sentiment.color }}>{sentiment.text}</span>
+          </h1>
+        ) : null}
         <video
           ref={videoRef}
           autoPlay

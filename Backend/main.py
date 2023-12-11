@@ -38,26 +38,6 @@ def read_root():
     return {"Hello": "World"}
 
 
-# @app.post("/upload_audio/")
-# async def upload_audio(file: UploadFile = File(...)):
-#     try:
-#         with open("uploaded_file.wav", "wb") as buffer:
-#             buffer.write(file.file.read())
-
-#         transcription = VoiceRecognition("uploaded_file.wav")
-#         # res = getCandidate(transcription)
-#         res = getCandidateV2(transcription)
-#         print("GET CANDIDATE: ", res)
-
-#         # Convert res to a string and include it in the message of the response
-#         return JSONResponse(content={"message": f"{str(res)}"}, status_code=200)
-#         # return PlainTextResponse(content=res, status_code=200)
-
-#     except Exception as e:
-#         return JSONResponse(content={"message": f"Error: {e}"}, status_code=500)
-#         # return PlainTextResponse(content=f"Error: {e}", status_code=500)
-
-
 # Get video stream
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
@@ -66,8 +46,6 @@ async def websocket_endpoint(websocket: WebSocket):
     lastSentimentCall = 0
     while True:
         data = await websocket.receive_text()  # Corrected spelling
-        # print("Received data:", data)
-        # Process the data here
 
         # debounce the call
         currentTime = asyncio.get_event_loop().time()
@@ -78,7 +56,6 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.send_text(json.dumps({'sentiment': sentiment}))
             
         await asyncio.sleep(0.01)
-        # return sentiment
 
 @app.post("/upload_image")
 async def getAction(image: UploadFile = File(...)):
